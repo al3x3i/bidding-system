@@ -1,6 +1,5 @@
 package ng.al3x3i.biddingsystem;
 
-import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -27,23 +26,6 @@ public class BiddingSystemService {
 
     @Autowired
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
-
-//    public Optional<BidResponsePayload> handleBiddingRequest(String id, Map<String, String> queryParams) {
-//
-//        var requestPayload = new BidRequestPayload(id, queryParams);
-//
-//        List<BidResponsePayload> responsePayloads = biddersSettings.getBidders()
-//                .stream()
-//                .map(bidderUrl ->
-//                        Try.of(() -> restTemplate.postForObject(bidderUrl, requestPayload, BidResponsePayload.class))
-//                                .onFailure((ex) -> log.error("Error, occurred unexpected exception while reading data from the bidder: `{}`", bidderUrl))
-//                                .getOrNull())
-//                .filter(Objects::nonNull)
-//                .collect(Collectors.toList());
-//
-//        Optional<BidResponsePayload> highestBidPayload = getHighestBid(responsePayloads);
-//        return highestBidPayload;
-//    }
 
     public Optional<BidResponsePayload> handleBiddingRequestAsynchronously(String id, Map<String, String> queryParams) {
 
