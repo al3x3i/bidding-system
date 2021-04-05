@@ -12,7 +12,7 @@ $ ./bidding-test/test-setup.sh
 ```
 2.2 Run spring boot application
 ```
-./gradlew bootRun
+$ ./gradlew bootRun
 ```
 3. Run the test
 ```
@@ -21,11 +21,11 @@ $ ./run-test.sh
 ```
 3.1 Run multiple tests
 ```
-for i in {1..100}; do ./run-test.sh; done
+$ for i in {1..100}; do ./run-test.sh; done
 ```
 3.2. Run multiple tests in parallel
 ```
-for i in {1..100}; do ./run-test.sh & done
+$ for i in {1..100}; do ./run-test.sh & done
 ```
 3.1 A message should appear after the test: `"Your application seems to behave correctly!"`
 4. Stop the test environment and spring boot application:
