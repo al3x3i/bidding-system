@@ -2,6 +2,7 @@ package ng.al3x3i.biddingsystem;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -17,7 +18,7 @@ public class BiddingSystemController {
     private BiddingSystemService service;
 
     @GetMapping("{id}")
-    public String getBidding(@PathVariable String id, @RequestParam Map<String, String> queryParams) {
+    public ResponseEntity getBidding(@PathVariable String id, @RequestParam Map<String, String> queryParams) {
 
         log.info("Received request: id=`{}`, query-params=`{}`", id, queryParams);
 
@@ -25,18 +26,17 @@ public class BiddingSystemController {
 
         return highestBidPayload.map(payload -> {
             BidResponsePayload response = highestBidPayload.get();
-            formatBidResponse(response);
-            return response.getContent();
+            return ResponseEntity.ok(formatBidResponse(response));
         }).orElseGet(() -> {
             log.warn("Unable handle bidding process");
-            return "No responses to bids";
+            return ResponseEntity.badRequest().build();
         });
     }
 
-    private BidResponsePayload formatBidResponse(BidResponsePayload payload) {
+    private String formatBidResponse(BidResponsePayload payload) {
         String content = payload.getContent()
                 .replaceAll(Pattern.quote("$price$"), String.valueOf(payload.getBid()));
         payload.setContent(content);
-        return payload;
+        return payload.getContent();
     }
 }

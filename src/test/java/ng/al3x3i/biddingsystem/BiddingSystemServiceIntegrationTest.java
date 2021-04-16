@@ -37,4 +37,42 @@ public class BiddingSystemServiceIntegrationTest {
         then(bid.get().getBid()).isEqualTo(600L);
     }
 
+    @Test
+    public void should_get_second_price_plus_one() {
+
+        // GIVEN
+        var requests = List.of(
+                new BidResponsePayload(5L, 10L, "c:$price$"),
+                new BidResponsePayload(5L, 7L, "c:$price$"),
+                new BidResponsePayload(5L, 5L, "c:$price$"),
+                new BidResponsePayload(5L, 4L, "c:$price$")
+        );
+
+        // WHEN
+        var bid  = service.getHighestBidSecond(requests);
+
+        // THEN
+        then(bid).isNotEmpty();
+        then(bid.get().getBid()).isEqualTo(8L);
+
+    }
+
+    @Test
+    public void should_get_not_get_second_price_raised_by_one() {
+
+        // GIVEN
+        var requests = List.of(
+                new BidResponsePayload(5L, 4L, "c:$price$"),
+                new BidResponsePayload(5L, 4L, "c:$price$")
+        );
+
+        // WHEN
+        var bid  = service.getHighestBidSecond(requests);
+
+        // THEN
+        then(bid).isNotEmpty();
+        then(bid.get().getBid()).isEqualTo(4L);
+
+    }
+
 }

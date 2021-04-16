@@ -71,4 +71,19 @@ public class BiddingSystemRestIntegrationTest {
         // THEN
         resultActions.andExpect(content().string("c:2500"));
     }
+
+    @Test
+    @SneakyThrows
+    public void should_fail_to_get_any_result() {
+        // GIVEN // WHEN
+        whenRequestBidding();
+
+        // THEN
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    private void whenRequestBidding() throws Exception {
+        resultActions = mockMvc.perform(get("/1?a=5c=1"))
+                .andDo(print());
+    }
 }
